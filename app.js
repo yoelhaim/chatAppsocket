@@ -33,18 +33,6 @@ var con = mysql.createConnection({
 });
 
 io.on("connection", (socket) => {
-  // chatRoute;
-  // io.emit("data", [
-  //   {
-  //     msgchat: "sssssssssssssssssssssssss",
-  //     id: 1,
-  //   },
-  //   {
-  //     msgchat: "oumoooousa",
-  //     id: 2,
-  //   },
-  // ]);
-
   socket.on("add", function (data) {
     console.log("data is : " + data.msgchat);
     // con.query(

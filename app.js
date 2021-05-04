@@ -67,9 +67,9 @@ io.on("connection", (socket) => {
   });
 });
 
-app.get("/chaaaat", (req, res) => {
-  res.sendFile(patch.join(__dirname, "index.html"));
-});
+// app.get("/chaaaat", (req, res) => {
+//   res.sendFile(patch.join(__dirname, "index.html"));
+// });
 // io.attach(server);
 
 //// vue

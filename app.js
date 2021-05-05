@@ -5,6 +5,8 @@ const server = require("http").createServer(app);
 const patch = require("path");
 const cors = require("cors");
 const path = require("path");
+
+const protectSocketIo = require("./maidlewaire/socketMedl");
 /// routes
 const authroute = require("./route/authRoute");
 const chatRoute = require("./route/chatRoute");
@@ -25,19 +27,14 @@ const io = require("socket.io")(server, {
 });
 app.use("/auth", authroute);
 app.use("/c", chatRoute);
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "chat",
-});
-
+// io.use(protectSocketIo);
 io.on("connection", (socket) => {
+  socket.on("online", function (data) {
+    socket.broadcast.emit("onlineuser", { userId: data.userId });
+  });
+
   socket.on("add", function (data) {
     console.log("data is : " + data.msgchat);
-    // con.query(
-    //   "insert into `chats` (`msgchat`,`userId`,`createdAt`,`updatedAt`)VALUES('qe',1,'2021-05-03 23:10:05','2021-05-03 23:10:05')"
-    // );
 
     socket.broadcast.emit("recev", {
       msgchat: data.msgchat,

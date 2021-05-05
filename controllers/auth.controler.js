@@ -44,7 +44,7 @@ const createAccount = async (req, res) => {
             .then((data) => {
               const token = jwt.sign(
                 { email: req.body.email, username_u: username_u },
-                "scamahackedfbinsta",
+                "chat",
                 // config.secret,
                 {
                   expiresIn: 86400, // expires in 24 hours
@@ -54,10 +54,12 @@ const createAccount = async (req, res) => {
               res.json({
                 code: 200,
                 message: "succefully create",
-                username_u: data.username_u,
-                email: data.email,
                 token: token,
+                username: data.username_u,
+                email: data.email,
                 id: data.id,
+                createdAt: data.createdAt,
+                updatedAt: data.updatedAt,
               });
             })
             .catch((error) => {

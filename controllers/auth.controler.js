@@ -7,6 +7,12 @@ const createAccount = async (req, res) => {
   try {
     let username_u = req.body.username_u;
     let email = req.body.email;
+    if (username_u.trim() == "" && email.trim() == "") {
+      res.statusCode = 404;
+      res.json({
+        message: "is empty ",
+      });
+    }
 
     let checkname = await users.findAll({
       where: { username_u: username_u },

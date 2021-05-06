@@ -4,5 +4,13 @@ module.exports = (db, type) => {
       type: type.STRING,
       allowNull: false,
     },
+    senderId: {
+      type: type.INTEGER,
+      allowNull: false,
+    },
+    receverId: {
+      type: type.INTEGER,
+      allowNull: false,
+    },
   });
 };

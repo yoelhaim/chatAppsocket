@@ -38,13 +38,22 @@ io.on("connection", (socket) => {
 
   socket.on("add", function (data) {
     console.log("data is : " + data.msgchat);
-
-    socket.broadcast.emit("recev", {
+    io.to("mygroupes").emit("recev", {
       msgchat: data.msgchat,
       userId: data.id,
       user: { username_u: data.username },
       createdAt: data.time,
     });
+
+    // io.emit("recev", {
+    //   msgchat: data.msgchat,
+    //   userId: data.id,
+    //   user: { username_u: data.username },
+    //   createdAt: data.time,
+    // });
+  });
+  socket.on("joinGroup", () => {
+    socket.join("mygroupes");
   });
   socket.on("typing", function (data) {
     socket.broadcast.emit("typings", { nickname: data.nickname });
@@ -55,10 +64,10 @@ io.on("connection", (socket) => {
   });
 });
 
-// app.get("/chaaaat", (req, res) => {
-//   res.sendFile(patch.join(__dirname, "index.html"));
-// });
-// io.attach(server);
+app.get("/chat", (req, res) => {
+  res.sendFile(patch.join(__dirname, "chats.html"));
+});
+io.attach(server);
 
 //// vue
 app.use("*", (req, res, next) => {

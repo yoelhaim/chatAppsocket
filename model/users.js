@@ -16,5 +16,9 @@ module.exports = (db, type) => {
       type: type.INTEGER,
       allowNull: false,
     },
+    online: {
+      type: type.INTEGER,
+      allowNull: false,
+    },
   });
 };

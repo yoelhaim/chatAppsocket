@@ -32,6 +32,9 @@ io.on("connection", (socket) => {
   socket.on("online", function (data) {
     socket.broadcast.emit("onlineuser", { userId: data.userId });
   });
+  socket.on("ofline", function (data) {
+    socket.broadcast.emit("oflineuser", { userId: data.userId });
+  });
 
   socket.on("add", function (data) {
     console.log("data is : " + data.msgchat);

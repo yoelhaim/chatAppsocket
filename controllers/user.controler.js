@@ -22,7 +22,11 @@ module.exports = {
   },
 
   getchat: async (req, res, next) => {
+    console.log(req.user);
     try {
+      if (parseInt(req.params.send) != req.user.id) {
+        throw httperror.Forbidden("not permission user");
+      }
       const chats = await chat.findAll({
         where: {
           [Op.or]: [
@@ -34,7 +38,7 @@ module.exports = {
       });
       res.send(chats);
     } catch (error) {
-      res.json({ error });
+      next(error);
     }
   },
   /// all data

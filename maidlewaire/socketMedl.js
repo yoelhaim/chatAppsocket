@@ -1,30 +1,26 @@
 const jwt = require("jsonwebtoken");
-const { createError } = require("./cr");
 const { users } = require("../model");
 
 const protectSocketIo = async (socket, next) => {
   try {
-    // if (!socket.handshake.headers.hasOwnProperty("x-auth-token")) {
-    //   console.log(
-    //     "hhhhhhhhhhhhhhhh :" + socket.handshake.headers["x-auth-token"]?.trim()
-    //   );
-    // }
+    if (!socket.handshake.headers.hasOwnProperty("x-auth-token")) {
+      throw Error("error data");
+    }
     let token = socket.handshake.headers["x-auth-token"]?.trim();
+
     let payload = jwt.verify(token, "chat");
     console.log(payload.username);
     let user = await users.findOne({
       where: { username_u: payload.username_u },
     });
 
-    if (user) {
-      socket.currentUser = user;
-      next();
-    } else {
-      console.log("kiwalo ");
+    if (!user) {
+      throw Error("error get User");
     }
+    socket.currentUser = user;
+    next();
   } catch (err) {
-    console.log("wwww :" + err.message);
-    next({ message: "errrrrrrrrrrrrrrror" });
+    next({ message: JSON.stringify(err) });
   }
 };
 module.exports = protectSocketIo;

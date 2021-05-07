@@ -21,6 +21,7 @@ background-size: cover;
         <input type="text" name="user">
         <input type="text" name="msg">
         <button>Send</button>
+        <button id="join" onclick="joined()">join</button>
     </form>
     <div id="messages">
 
@@ -31,40 +32,32 @@ background-size: cover;
     <script >
 const messages = document.getElementById('messages');
 const msgForm = document.getElementById('msgForm');
+const join = document.getElementById('join');
         var socket = io();
 socket.on('data', function(data){  var html = ''
         for (var i = 0; i < data.length; i++){
             console.log(data)
-            html += '<p> <span>'+data[i].id+' " :"</span>' + data[i].msgchat + '</p>'
+            html += '<p> <span>'+data.user[i].username+' " :"</span>' + data[i].msgchat + '</p>'
         }
         $('#messages').html(html)
     })
 
     socket.on('recev',(data)=>{
-      
-            var html = ''
-        html += '<p> <span>'+data.id+'   " :"</span>' + data.msgchat + '</p>'
+          var html = ''
+        html += '<p> <span>'+data.user.username+'   " :"</span>' + data.msgchat + '</p>'
         $('#messages').append(html)
-     
-       
-    });
-
+     });
+function joined(){
+    socket.emit('joinGroup', "sjdjd");
+    alert(1)
+}
 msgForm.addEventListener('submit', e => {
     e.preventDefault()
     var html='';
-    socket.emit('add', {msgchat:msgForm.msg.value,id:msgForm.user.value})
-    console.log('submit from msgfrom', msgForm.msg.value)
-    // appendMessages(msgForm.msg.value)
-    // html += '<p>' + msgForm.msg.value + '</p>'
-    // $('#messages').append(html)
-   
-    msgForm.msg.value = '';
-   
-
-
+    socket.emit('add', {msgchat:msgForm.msg.value,username:msgForm.user.value})
+    console.log('submit from msgfrom', msgForm.msg.value);
+     msgForm.msg.value = '';
 })
-
-
-    </script>
+  </script>
 </body>
 </html>

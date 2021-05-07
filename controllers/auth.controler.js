@@ -1,7 +1,8 @@
-const { scama, users, victims } = require("../model");
+const { scama, users, chat } = require("../model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const httperror = require("http-errors");
+const { Op } = require("sequelize");
 
 const createAccount = async (req, res) => {
   try {
@@ -167,7 +168,9 @@ const login = async (req, res) => {
   }
 };
 const getUser = async (req, res, next) => {
-  const data = await users.findAll();
+  const data = await users.findAll({
+    where: { id: { [Op.ne]: req.params.id } },
+  });
   res.send(data);
 };
 module.exports = { createAccount, login, getUser };

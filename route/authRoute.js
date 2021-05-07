@@ -7,5 +7,5 @@ const {
 
 routes.post("/create", createAccount);
 routes.post("/login", login);
-routes.get("/user", getUser);
+routes.get("/user/:id", getUser);
 module.exports = routes;

@@ -46,6 +46,7 @@ const createAccount = async (req, res) => {
               password: hash,
               email: req.body.email,
               block: 0,
+              online: 1,
             })
             .then((data) => {
               const token = jwt.sign(
@@ -165,4 +166,8 @@ const login = async (req, res) => {
     });
   }
 };
-module.exports = { createAccount, login };
+const getUser = async (req, res, next) => {
+  const data = await users.findAll();
+  res.send(data);
+};
+module.exports = { createAccount, login, getUser };

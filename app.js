@@ -37,12 +37,12 @@ io.on("connection", (socket) => {
   });
 
   socket.on("add", function (data) {
-    console.log("data is : " + data.msgchat);
-    io.to("mygroupes").emit("recev", {
+    console.log("groupe is is : " + data.groupe);
+    socket.to(data.groupe).emit("recev", {
       msgchat: data.msgchat,
       userId: data.id,
       user: { username_u: data.username },
-      createdAt: data.time,
+      createdAt: data.createdAt,
     });
 
     // io.emit("recev", {
@@ -52,8 +52,9 @@ io.on("connection", (socket) => {
     //   createdAt: data.time,
     // });
   });
-  socket.on("joinGroup", () => {
-    socket.join("mygroupes");
+  socket.on("joinGroup", (data) => {
+    socket.join(data);
+    console.log("hahaah :" + data);
   });
   socket.on("typing", function (data) {
     socket.broadcast.emit("typings", { nickname: data.nickname });

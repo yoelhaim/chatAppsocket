@@ -6,6 +6,7 @@ const patch = require("path");
 const cors = require("cors");
 const path = require("path");
 
+const pretctRoutes = require("./maidlewaire/tokcheck");
 const protectSocketIo = require("./maidlewaire/socketMedl");
 /// routes
 const authroute = require("./route/authRoute");
@@ -25,6 +26,7 @@ const io = require("socket.io")(server, {
     allowedHeaders: ["x-auth-token"],
   },
 });
+app.get("/c/chat/:rec/:send", pretctRoutes);
 app.use("/auth", authroute);
 app.use("/c", chatRoute);
 // io.use(protectSocketIo);
@@ -80,6 +82,14 @@ app.use("*", (req, res, next) => {
       res.sendFile(path.resolve(__dirname, "./public/index.html"));
     }
   });
+});
+app.use(function (err, req, res, next) {
+  const error = {
+    message: err.message,
+  };
+
+  res.status(err.status || 500);
+  res.json({ error });
 });
 server.listen(port, () => console.log("socket connect"));
 server.on("error", onError);

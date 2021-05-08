@@ -12,5 +12,9 @@ module.exports = (db, type) => {
       type: type.INTEGER,
       allowNull: false,
     },
+    time: {
+      type: type.STRING,
+      allowNull: false,
+    },
   });
 };

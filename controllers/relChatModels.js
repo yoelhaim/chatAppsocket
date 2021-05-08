@@ -3,6 +3,7 @@ const today = require("../config/date");
 const httperror = require("http-errors");
 const { Op } = require("sequelize");
 const { json } = require("body-parser");
+const users = require("../model/users");
 
 const addRelChat = async (req, res, next) => {
   let checkData = await relcaht.findAll({
@@ -30,13 +31,14 @@ const addRelChat = async (req, res, next) => {
 };
 const getRel = async (req, res, next) => {
   let checkData = await relcaht.findAll({
+    order: [["time", "DESC"]],
     where: {
       [Op.or]: [
-        { senderId: req.params.senderId, receverId: req.params.receverId },
-        { senderId: req.params.receverId, receverId: req.params.senderId },
+        { senderId: req.params.senderId },
+        { receverId: req.params.senderId },
       ],
     },
   });
-  res.json({ urlgroupe: checkData.relId });
+  res.send(checkData);
 };
 module.exports = { addRelChat, getRel };

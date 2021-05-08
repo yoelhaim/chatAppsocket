@@ -12,5 +12,21 @@ module.exports = (db, type) => {
       type: type.INTEGER,
       allowNull: false,
     },
+    sendername: {
+      type: type.STRING,
+      allowNull: false,
+    },
+    recevername: {
+      type: type.STRING,
+      allowNull: false,
+    },
+    time: {
+      type: type.STRING,
+      allowNull: false,
+    },
+    lastmsg: {
+      type: type.STRING,
+      allowNull: false,
+    },
   });
 };
